@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEVO - Visa Entitlement Verification Online</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: #002664;
+            color: white;
+            padding: 15px 0;
+            border-bottom: 5px solid #E4002B;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .aus-crest {
+            height: 70px;
+            margin-right: 20px;
+        }
+        
+        .department-name {
+            flex: 1;
+        }
+        
+        .department-name h1 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+        
+        .department-name p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* Form Section */
+        .form-section {
+            padding: 30px;
+        }
+        
+        .form-title {
+            color: #002664;
+            border-bottom: 2px solid #E4002B;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .form-title h2 {
+            font-size: 22px;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: #E4002B;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #002664;
+            box-shadow: 0 0 0 2px rgba(0, 38, 100, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        /* Button Styles */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-clear {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background-color: #5a6268;
+        }
+        
+        .btn-submit {
+            background-color: #002664;
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            background-color: #001a40;
+        }
+        
+        /* Result Section */
+        .result-section {
+            display: none;
+            padding: 30px;
+            border-top: 3px solid #002664;
+        }
+        
+        .visa-details {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #002664;
+        }
+        
+        .visa-details h3 {
+            color: #002664;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-size: 16px;
+            padding: 5px 0;
+        }
+        
+        .status-active {
+            color: #28a745;
+            font-weight: 600;
+            background-color: rgba(40, 167, 69, 0.1);
+            padding: 3px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        /* PDF Actions */
+        .pdf-actions {
+            margin: 20px 0;
+            padding: 20px;
+            background: #e8f4ff;
+            border-radius: 5px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-pdf {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+        
+        .btn-pdf:hover {
+            background-color: #c82333;
+        }
+        
+        .btn-view-pdf {
+            background-color: #17a2b8;
+        }
+        
+        .btn-view-pdf:hover {
+            background-color: #138496;
+        }
+        
+        /* Documents Section */
+        .documents-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .document-card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .document-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .document-card i {
+            font-size: 24px;
+            color: #002664;
+            margin-bottom: 10px;
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        /* PDF Viewer Modal */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1001;
+        }
+        
+        .pdf-modal-content {
+            background: white;
+            width: 95%;
+            height: 95%;
+            margin: 2.5% auto;
+            border-radius: 5px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pdf-modal-header {
+            background: #002664;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .pdf-modal-body {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #002664;
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .copyright {
+            font-size: 14px;
+        }
+        
+        .admin-btn {
+            background-color: #E4002B;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .admin-btn:hover {
+            background-color: #cc0026;
+        }
+        
+        /* Admin Modal */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            margin: 50px auto;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            background: #002664;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-weight: 500;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .error-message {
+            color: #E4002B;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        /* Admin Dashboard */
+        .admin-dashboard {
+            display: none;
+            padding: 30px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .logout-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .logout-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .tab-container {
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab-button:hover {
+            color: #002664;
+        }
+        
+        .tab-button.active {
+            color: #002664;
+            border-bottom: 3px solid #002664;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+        
+        .visa-list {
+            background: #f8f9fa;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .visa-item {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        .visa-item:hover {
+            background: #e9ecef;
+        }
+        
+        .visa-info h4 {
+            color: #002664;
+            margin-bottom: 5px;
+        }
+        
+        .visa-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .visa-actions button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .btn-view {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .btn-edit {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-pdf-small {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        /* Add/Edit Form */
+        .admin-form-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-save {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-save:hover {
+            background-color: #218838;
+        }
+        
+        .btn-cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+        
+        .document-upload {
+            border: 2px dashed #ddd;
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .document-upload:hover {
+            border-color: #002664;
+            background-color: #f8f9fa;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .aus-crest {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .pdf-actions {
+                flex-direction: column;
+            }
+            
+            .visa-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .visa-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .search-box input {
+                width: 100%;
+            }
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #002664;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Alert Messages */
+        .alert {
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .no-results i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+        
+        /* Print Styles */
+        @media print {
+            .header, .footer, .pdf-actions, .button-group, .admin-btn {
+                display: none !important;
+            }
+            
+            .container {
+                box-shadow: none;
+                margin: 0;
+            }
+            
+            .visa-details {
+                border: none;
+                background: white;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <img src="https://www.homeaffairs.gov.au/etc/designs/homs/images/global/coa-crest.svg" 
+                 alt="Australian Government Crest" class="aus-crest">
+            <div class="department-name">
+                <h1>Australian Government</h1>
+                <p>Department of Home Affairs</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- VEVO Form Section -->
+        <div class="form-section" id="formSection">
+            <div class="form-title">
+                <h2><i class="fas fa-passport"></i> VEVO for visa holders</h2>
+                <p>Please complete the following details to view your visa entitlement</p>
+            </div>
+            
+            <div class="alert alert-error" id="errorAlert">
+                <i class="fas fa-exclamation-circle"></i> No visa found with the provided details. Please check your information and try again.
+            </div>
+            
+            <div class="alert alert-success" id="successAlert" style="display: none;">
+                <i class="fas fa-check-circle"></i> Visa details found successfully!
+            </div>
+            
+            <p style="color: #666; margin-bottom: 20px; font-size: 14px;">
+                <i class="fas fa-exclamation-circle" style="color: #E4002B;"></i>
+                Fields marked * must be completed
+            </p>
+            
+            <form id="vevoForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="documentType" class="required-field">Document Type</label>
+                        <select id="documentType" name="documentType" required>
+                            <option value="">Select Document Type</option>
+                            <option value="passport">Passport</option>
+                            <option value="immicard">Immicard</option>
+                            <option value="bridging_doc">Bridging Document</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="referenceType" class="required-field">Reference Type</label>
+                        <select id="referenceType" name="referenceType" required>
+                            <option value="">Select Reference Type</option>
+                            <option value="transaction">Transaction Reference Number (TRN)</option>
+                            <option value="visa">Visa Grant Number</option>
+                            <option value="passport">Passport Number</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dateOfBirth" class="required-field">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="documentNumber" class="required-field">Document Number</label>
+                        <input type="text" id="documentNumber" name="documentNumber" required 
+                               placeholder="Enter your document number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="country" class="required-field">Country of Document</label>
+                        <select id="country" name="country" required>
+                            <option value="">Select Country</option>
+                            <option value="BGD">Bangladesh</option>
+                            <option value="AUS">Australia</option>
+                            <option value="USA">United States</option>
+                            <option value="GBR">United Kingdom</option>
+                            <option value="IND">India</option>
+                            <option value="CHN">China</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="spinner" id="formSpinner"></div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn btn-clear" id="clearBtn">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                    <button type="submit" class="btn btn-submit" id="submitBtn">
+                        <i class="fas fa-search"></i> Submit All Details To See Visa Entitlement
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section" id="resultSection">
+            <div class="form-title">
+                <h2><i class="fas fa-file-contract"></i> Visa Entitlement Details</h2>
+                <p>Your current visa status and entitlements</p>
+            </div>
+            
+            <!-- PDF Actions -->
+            <div class="pdf-actions" id="pdfActions">
+                <button class="btn btn-pdf" onclick="generateVisaDetailsPDF()">
+                    <i class="fas fa-file-pdf"></i> Download Visa Details as PDF
+                </button>
+                <button class="btn btn-pdf btn-view-pdf" onclick="viewVisaDetailsPDF()">
+                    <i class="fas fa-eye"></i> View Visa Details PDF
+                </button>
+                <button class="btn btn-pdf" onclick="generateVisaGrantLetterPDF()">
+                    <i class="fas fa-file-contract"></i> Download Visa Grant Letter
+                </button>
+                <button class="btn btn-pdf" onclick="generateVEVOCheckPDF()">
+                    <i class="fas fa-check-circle"></i> Generate VEVO Check PDF
+                </button>
+            </div>
+            
+            <div class="visa-details" id="visaDetails">
+                <!-- Visa details will be populated here -->
+            </div>
+            
+            <div class="documents-section" id="documentsSection">
+                <h3><i class="fas fa-paperclip"></i> Attached Documents</h3>
+                <div class="documents-grid" id="documentsGrid">
+                    <!-- Documents will be populated here -->
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button type="button" class="btn btn-clear" onclick="goBackToForm()">
+                    <i class="fas fa-arrow-left"></i> Back to Search
+                </button>
+                <button type="button" class="btn btn-submit" onclick="printVisaDetails()">
+                    <i class="fas fa-print"></i> Print Visa Details
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div class="admin-dashboard" id="adminDashboard">
+            <div class="dashboard-header">
+                <div>
+                    <h2><i class="fas fa-user-shield"></i> Agent Portal - Visa Management</h2>
+                    <p>Welcome, Agent | <span id="currentDate"></span></p>
+                </div>
+                <a href="#" class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            
+            <div class="tab-container">
+                <button class="tab-button active" data-tab="manageVisas">
+                    <i class="fas fa-users"></i> Manage Visa Holders
+                </button>
+                <button class="tab-button" data-tab="addVisa">
+                    <i class="fas fa-user-plus"></i> Add New Visa Holder
+                </button>
+                <button class="tab-button" data-tab="statistics">
+                    <i class="fas fa-chart-bar"></i> Statistics
+                </button>
+            </div>
+            
+            <!-- Manage Visas Tab -->
+            <div class="tab-content active" id="manageVisasTab">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by name, passport, or visa number..." 
+                           onkeyup="searchVisaHolders()">
+                    <button class="btn" onclick="clearSearch()" style="margin-left: 10px; padding: 10px 15px;">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+                
+                <div class="alert alert-success" id="adminSuccessAlert" style="display: none;"></div>
+                
+                <div class="visa-list" id="visaList">
+                    <!-- Visa list will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Add Visa Tab -->
+            <div class="tab-content" id="addVisaTab">
+                <div class="admin-form-section">
+                    <h3><i class="fas fa-user-plus"></i> Add New Visa Holder</h3>
+                    <form id="addVisaForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="addFirstName">First Name *</label>
+                                <input type="text" id="addFirstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addLastName">Last Name *</label>
+                                <input type="text" id="addLastName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="addDateOfBirth">Date of Birth *</label>
+                                <input type="date" id="addDateOfBirth" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addNationality">Nationality *</label>
+                                <input type="text" id="addNationality" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="addPassportNumber">Passport Number *</label>
+                                <input type="text" id="addPassportNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addPassportCountry">Passport Country *</label>
+                                <select id="addPassportCountry" required>
+                                    <option value="BGD">Bangladesh</option>
+                                    <option value="AUS">Australia</option>
+                                    <option value="USA">United States</option>
+                                    <option value="GBR">United Kingdom</option>
+                                    <option value="IND">India</option>
+                                    <option value="CHN">China</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="addPassportExpiry">Passport Expiry *</label>
+                                <input type="date" id="addPassportExpiry" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addVisaType">Visa Type *</label>
+                                <select id="addVisaType" required>
+                                    <option value="Temporary Skill Shortage visa (subclass 482)">Temporary Skill Shortage (482)</option>
+                                    <option value="Student visa (subclass 500)">Student Visa (500)</option>
+                                    <option value="Visitor visa (subclass 600)">Visitor Visa (600)</option>
+                                    <option value="Partner visa (subclass 820/801)">Partner Visa (820/801)</option>
+                                    <option value="Temporary Graduate visa (subclass 485)">Temporary Graduate (485)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="addVisaGrantNumber">Visa Grant Number *</label>
+                                <input type="text" id="addVisaGrantNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addVisaGrantDate">Visa Grant Date *</label>
+                                <input type="date" id="addVisaGrantDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="addVisaExpiryDate">Visa Expiry Date *</label>
+                                <input type="date" id="addVisaExpiryDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addEntriesAllowed">Entries Allowed *</label>
+                                <select id="addEntriesAllowed" required>
+                                    <option value="Multiple">Multiple</option>
+                                    <option value="Single">Single</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="addStatus">Status *</label>
+                                <select id="addStatus" required>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                    <option value="Expired">Expired</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="document-upload" id="documentUploadArea" onclick="document.getElementById('documentFiles').click()">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: #002664;"></i>
+                            <p>Click or drag to upload documents (PDF, JPG, PNG)</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;">Maximum file size: 10MB</p>
+                            <input type="file" id="documentFiles" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(this)">
+                            <div id="selectedFiles"></div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-save">
+                                <i class="fas fa-save"></i> Save Visa Holder
+                            </button>
+                            <button type="button" class="btn btn-cancel" id="cancelAdd">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Statistics Tab -->
+            <div class="tab-content" id="statisticsTab">
+                <div class="admin-form-section">
+                    <h3><i class="fas fa-chart-bar"></i> System Statistics</h3>
+                    <div id="statisticsContent">
+                        <!-- Statistics will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="copyright">
+                <p>© Commonwealth of Australia</p>
+                <p>Department of Home Affairs | Last updated: <span id="currentYear"></span></p>
+            </div>
+            <a href="#" class="admin-btn" id="adminBtn">
+                <i class="fas fa-user-shield"></i> Agent Portal
+            </a>
+        </div>
+    </footer>
+
+    <!-- PDF Viewer Modal -->
+    <div class="pdf-modal" id="pdfModal">
+        <div class="pdf-modal-content">
+            <div class="pdf-modal-header">
+                <h3 id="pdfModalTitle">PDF Document</h3>
+                <button class="close-modal" id="closePdfModal">&times;</button>
+            </div>
+            <div class="pdf-modal-body">
+                <iframe class="pdf-viewer" id="pdfViewer" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-shield"></i> Agent Login</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="error-message" id="loginError">
+                    <i class="fas fa-exclamation-circle"></i> Invalid User ID or Password
+                </div>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="userId">User ID *</label>
+                        <input type="text" id="userId" required placeholder="Enter Agent User ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" required placeholder="Enter Password">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-submit" style="width: 100%;">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load PDF.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Database class using localStorage
+        class VisaDatabase {
+            constructor() {
+                this.KEY = 'australia_visa_system_final';
+                this.DOCS_KEY = 'visa_documents_final';
+                this.initializeDatabase();
+            }
+            
+            initializeDatabase() {
+                if (!localStorage.getItem(this.KEY)) {
+                    const initialData = [
+                        {
+                            id: 1,
+                            firstName: 'MD.',
+                            lastName: 'SABUJ',
+                            dateOfBirth: '1984-09-12',
+                            nationality: 'Bangladeshi',
+                            passportNumber: 'A14674505',
+                            passportCountry: 'BGD',
+                            passportExpiry: '2029-04-24',
+                            visaType: 'Temporary Skill Shortage visa (subclass 482)',
+                            visaGrantNumber: 'VG67688768',
+                            visaGrantDate: '2026-01-02',
+                            visaExpiryDate: '2028-01-01',
+                            entriesAllowed: 'Multiple',
+                            status: 'Active',
+                            createdDate: new Date().toISOString(),
+                            lastUpdated: new Date().toISOString(),
+                            documents: [
+                                'Visa_Grant_Letter_SABUJ.pdf',
+                                'Passport_Copy_SABUJ.pdf',
+                                'Employment_Contract_SABUJ.pdf'
+                            ]
+                        },
+                        {
+                            id: 2,
+                            firstName: 'HOSSAIN',
+                            lastName: 'KAMAL',
+                            dateOfBirth: '1980-05-10',
+                            nationality: 'Bangladeshi',
+                            passportNumber: 'A12535506',
+                            passportCountry: 'BGD',
+                            passportExpiry: '2033-09-30',
+                            visaType: 'Temporary Skill Shortage visa (subclass 482)',
+                            visaGrantNumber: 'NJ76397854',
+                            visaGrantDate: '2026-01-02',
+                            visaExpiryDate: '2028-01-01',
+                            entriesAllowed: 'Multiple',
+                            status: 'Active',
+                            createdDate: new Date().toISOString(),
+                            lastUpdated: new Date().toISOString(),
+                            documents: [
+                                'Visa_Grant_Letter_KAMAL.pdf',
+                                'Passport_Copy_KAMAL.pdf',
+                                'Skills_Assessment_KAMAL.pdf'
+                            ]
+                        }
+                    ];
+                    
+                    localStorage.setItem(this.KEY, JSON.stringify(initialData));
+                }
+                
+                // Initialize documents storage
+                if (!localStorage.getItem(this.DOCS_KEY)) {
+                    localStorage.setItem(this.DOCS_KEY, JSON.stringify({}));
+                }
+            }
+            
+            getAllVisaHolders() {
+                return JSON.parse(localStorage.getItem(this.KEY) || '[]');
+            }
+            
+            findVisaHolder(passportNumber, dateOfBirth) {
+                const holders = this.getAllVisaHolders();
+                return holders.find(holder => 
+                    holder.passportNumber === passportNumber && 
+                    holder.dateOfBirth === dateOfBirth
+                );
+            }
+            
+            findVisaHolderById(id) {
+                const holders = this.getAllVisaHolders();
+                return holders.find(holder => holder.id === id);
+            }
+            
+            addVisaHolder(visaData) {
+                const holders = this.getAllVisaHolders();
+                const newId = holders.length > 0 ? Math.max(...holders.map(h => h.id)) + 1 : 1;
+                visaData.id = newId;
+                visaData.createdDate = new Date().toISOString();
+                visaData.lastUpdated = new Date().toISOString();
+                visaData.documents = visaData.documents || [];
+                holders.push(visaData);
+                localStorage.setItem(this.KEY, JSON.stringify(holders));
+                return visaData;
+            }
+            
+            updateVisaHolder(id, updatedData) {
+                const holders = this.getAllVisaHolders();
+                const index = holders.findIndex(h => h.id === id);
+                if (index !== -1) {
+                    updatedData.lastUpdated = new Date().toISOString();
+                    holders[index] = {...holders[index], ...updatedData};
+                    localStorage.setItem(this.KEY, JSON.stringify(holders));
+                    return true;
+                }
+                return false;
+            }
+            
+            deleteVisaHolder(id) {
+                const holders = this.getAllVisaHolders();
+                const filtered = holders.filter(h => h.id !== id);
+                localStorage.setItem(this.KEY, JSON.stringify(filtered));
+                return holders.length !== filtered.length;
+            }
+            
+            getDocuments(visaId) {
+                const allDocs = JSON.parse(localStorage.getItem(this.DOCS_KEY) || '{}');
+                return allDocs[visaId] || [];
+            }
+            
+            addDocument(visaId, document) {
+                const allDocs = JSON.parse(localStorage.getItem(this.DOCS_KEY) || '{}');
+                if (!allDocs[visaId]) {
+                    allDocs[visaId] = [];
+                }
+                document.id = Date.now();
+                document.uploadDate = new Date().toISOString();
+                allDocs[visaId].push(document);
+                localStorage.setItem(this.DOCS_KEY, JSON.stringify(allDocs));
+                return document;
+            }
+            
+            deleteDocument(visaId, docId) {
+                const allDocs = JSON.parse(localStorage.getItem(this.DOCS_KEY) || '{}');
+                if (allDocs[visaId]) {
+                    allDocs[visaId] = allDocs[visaId].filter(doc => doc.id !== docId);
+                    localStorage.setItem(this.DOCS_KEY, JSON.stringify(allDocs));
+                    return true;
+                }
+                return false;
+            }
+            
+            getStatistics() {
+                const holders = this.getAllVisaHolders();
+                const stats = {
+                    total: holders.length,
+                    active: holders.filter(h => h.status === 'Active').length,
+                    inactive: holders.filter(h => h.status === 'Inactive').length,
+                    cancelled: holders.filter(h => h.status === 'Cancelled').length,
+                    expired: holders.filter(h => h.status === 'Expired').length,
+                    byNationality: {},
+                    byVisaType: {}
+                };
+                
+                holders.forEach(holder => {
+                    // Count by nationality
+                    if (!stats.byNationality[holder.nationality]) {
+                        stats.byNationality[holder.nationality] = 0;
+                    }
+                    stats.byNationality[holder.nationality]++;
+                    
+                    // Count by visa type
+                    if (!stats.byVisaType[holder.visaType]) {
+                        stats.byVisaType[holder.visaType] = 0;
+                    }
+                    stats.byVisaType[holder.visaType]++;
+                });
+                
+                return stats;
+            }
+        }
+
+        // Initialize database
+        const visaDB = new VisaDatabase();
+
+        // DOM Elements
+        const formSection = document.getElementById('formSection');
+        const resultSection = document.getElementById('resultSection');
+        const visaDetails = document.getElementById('visaDetails');
+        const documentsGrid = document.getElementById('documentsGrid');
+        const vevoForm = document.getElementById('vevoForm');
+        const clearBtn = document.getElementById('clearBtn');
+        const adminBtn = document.getElementById('adminBtn');
+        const adminModal = document.getElementById('adminModal');
+        const closeModal = document.getElementById('closeModal');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const visaList = document.getElementById('visaList');
+        const searchInput = document.getElementById('searchInput');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const addVisaForm = document.getElementById('addVisaForm');
+        const cancelAdd = document.getElementById('cancelAdd');
+        const documentFiles = document.getElementById('documentFiles');
+        const pdfModal = document.getElementById('pdfModal');
+        const pdfViewer = document.getElementById('pdfViewer');
+        const closePdfModal = document.getElementById('closePdfModal');
+        const errorAlert = document.getElementById('errorAlert');
+        const successAlert = document.getElementById('successAlert');
+        const formSpinner = document.getElementById('formSpinner');
+        const currentDateSpan = document.getElementById('currentDate');
+        const currentYearSpan = document.getElementById('currentYear');
+        const adminSuccessAlert = document.getElementById('adminSuccessAlert');
+        const statisticsContent = document.getElementById('statisticsContent');
+
+        // Current state
+        let currentVisaHolder = null;
+        let isAdminLoggedIn = false;
+        let uploadedDocuments = [];
+
+        // Initialize date display
+        function initializeDates() {
+            const now = new Date();
+            currentDateSpan.textContent = now.toLocaleDateString('en-AU', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            currentYearSpan.textContent = now.getFullYear();
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-AU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        // Format date for input fields
+        function formatDateForInput(dateString) {
+            const date = new Date(dateString);
+            return date.toISOString().split('T')[0];
+        }
+
+        // Show visa details
+        function showVisaDetails(holder) {
+            currentVisaHolder = holder;
+            
+            const detailsHTML = `
+                <h3><i class="fas fa-user"></i> ${holder.firstName} ${holder.lastName}</h3>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Date of Birth</div>
+                        <div class="detail-value">${formatDate(holder.dateOfBirth)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Nationality</div>
+                        <div class="detail-value">${holder.nationality}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Passport Number</div>
+                        <div class="detail-value">${holder.passportNumber}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Passport Country</div>
+                        <div class="detail-value">${holder.passportCountry}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Passport Expiry</div>
+                        <div class="detail-value">${formatDate(holder.passportExpiry)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Visa Type</div>
+                        <div class="detail-value">${holder.visaType}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Visa Grant Number</div>
+                        <div class="detail-value">${holder.visaGrantNumber}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Visa Grant Date</div>
+                        <div class="detail-value">${formatDate(holder.visaGrantDate)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Visa Expiry Date</div>
+                        <div class="detail-value">${formatDate(holder.visaExpiryDate)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Entries Allowed</div>
+                        <div class="detail-value">${holder.entriesAllowed}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Visa Status</div>
+                        <div class="detail-value"><span class="status-active">${holder.status}</span></div>
+                    </div>
+                </div>
+            `;
+            
+            visaDetails.innerHTML = detailsHTML;
+            
+            // Load documents
+            loadDocuments(holder.id);
+            
+            // Show result section
+            formSection.style.display = 'none';
+            resultSection.style.display = 'block';
+            adminDashboard.style.display = 'none';
+            document.getElementById('pdfActions').style.display = 'flex';
+            
+            // Show success message
+            successAlert.style.display = 'block';
+            errorAlert.style.display = 'none';
+        }
+
+        // Load documents for a visa holder
+        function loadDocuments(visaId) {
+            const documents = visaDB.getDocuments(visaId);
+            const holder = visaDB.findVisaHolderById(visaId);
+            
+            let documentsHTML = '';
+            
+            // Add predefined documents
+            if (holder && holder.documents && holder.documents.length > 0) {
+                holder.documents.forEach(doc => {
+                    documentsHTML += `
+                        <div class="document-card">
+                            <i class="fas fa-file-pdf"></i>
+                            <p>${doc}</p>
+                            <div class="document-actions">
+                                <button onclick="viewSamplePDF('${doc}', '${holder.firstName} ${holder.lastName}')" class="btn btn-view-pdf" style="padding: 5px 10px;">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button onclick="downloadDocument('${doc}', '${holder.firstName}', '${holder.lastName}')" class="btn" style="padding: 5px 10px; background-color: #28a745; color: white;">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Add uploaded documents
+            documents.forEach(doc => {
+                documentsHTML += `
+                    <div class="document-card">
+                        <i class="fas fa-file${doc.type === 'application/pdf' ? '-pdf' : '-image'}"></i>
+                        <p>${doc.name}</p>
+                        <p style="font-size: 12px; color: #666;">${new Date(doc.uploadDate).toLocaleDateString()}</p>
+                        <div class="document-actions">
+                            <button onclick="viewUploadedPDF(${visaId}, ${doc.id})" class="btn btn-view-pdf" style="padding: 5px 10px;">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            ${isAdminLoggedIn ? `
+                            <button onclick="deleteDocument(${visaId}, ${doc.id})" class="btn" style="padding: 5px 10px; background-color: #dc3545; color: white;">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (documentsHTML) {
+                documentsGrid.innerHTML = documentsHTML;
+                document.getElementById('documentsSection').style.display = 'block';
+            } else {
+                document.getElementById('documentsSection').style.display = 'none';
+                documentsGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-file"></i>
+                        <p>No documents available for this visa holder</p>
+                    </div>
+                `;
+            }
+        }
+
+        // PDF Generation Functions - FIXED AND WORKING
+        function generateVisaDetailsPDF() {
+            if (!currentVisaHolder) return;
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                
+                if (!jsPDF) {
+                    alert('PDF library not available. Please check your internet connection.');
+                    return;
+                }
+                
+                const doc = new jsPDF();
+                
+                // Add Australian Government Header
+                doc.setFillColor(0, 38, 100);
+                doc.rect(0, 0, 210, 30, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(18);
+                doc.text('Australian Government', 105, 12, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text('Department of Home Affairs', 105, 20, { align: 'center' });
+                
+                // Add red line
+                doc.setDrawColor(228, 0, 43);
+                doc.setLineWidth(2);
+                doc.line(10, 32, 200, 32);
+                
+                // Title
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(16);
+                doc.text('Visa Entitlement Verification', 105, 45, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text('Visa Details Document', 105, 52, { align: 'center' });
+                
+                // Personal Information
+                doc.setFontSize(12);
+                let yPos = 65;
+                
+                doc.setFont(undefined, 'bold');
+                doc.text('Personal Information:', 15, yPos);
+                doc.setFont(undefined, 'normal');
+                yPos += 10;
+                
+                doc.text(`Full Name: ${currentVisaHolder.firstName} ${currentVisaHolder.lastName}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Date of Birth: ${formatDate(currentVisaHolder.dateOfBirth)}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Nationality: ${currentVisaHolder.nationality}`, 20, yPos);
+                yPos += 10;
+                
+                // Passport Information
+                doc.setFont(undefined, 'bold');
+                doc.text('Passport Information:', 15, yPos);
+                doc.setFont(undefined, 'normal');
+                yPos += 10;
+                
+                doc.text(`Passport Number: ${currentVisaHolder.passportNumber}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Passport Country: ${currentVisaHolder.passportCountry}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Passport Expiry: ${formatDate(currentVisaHolder.passportExpiry)}`, 20, yPos);
+                yPos += 10;
+                
+                // Visa Information
+                doc.setFont(undefined, 'bold');
+                doc.text('Visa Information:', 15, yPos);
+                doc.setFont(undefined, 'normal');
+                yPos += 10;
+                
+                doc.text(`Visa Type: ${currentVisaHolder.visaType}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Visa Grant Number: ${currentVisaHolder.visaGrantNumber}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Visa Grant Date: ${formatDate(currentVisaHolder.visaGrantDate)}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Visa Expiry Date: ${formatDate(currentVisaHolder.visaExpiryDate)}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Entries Allowed: ${currentVisaHolder.entriesAllowed}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Status: ${currentVisaHolder.status}`, 20, yPos);
+                yPos += 10;
+                
+                // Footer
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text('Generated on: ' + new Date().toLocaleDateString('en-AU'), 15, 280);
+                doc.text('VEVO Reference: ' + currentVisaHolder.visaGrantNumber, 105, 280, { align: 'center' });
+                doc.text('Official Document - Department of Home Affairs', 195, 280, { align: 'right' });
+                
+                // Add watermark
+                doc.setFontSize(60);
+                doc.setTextColor(230, 230, 230);
+                doc.text('OFFICIAL', 105, 150, { align: 'center' });
+                
+                // Save PDF
+                doc.save(`Visa_Details_${currentVisaHolder.passportNumber}.pdf`);
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF. Please try again.');
+            }
+        }
+
+        function viewVisaDetailsPDF() {
+            if (!currentVisaHolder) return;
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                
+                if (!jsPDF) {
+                    alert('PDF library not available. Please check your internet connection.');
+                    return;
+                }
+                
+                const doc = new jsPDF();
+                
+                // Same content as generateVisaDetailsPDF but for viewing
+                doc.setFillColor(0, 38, 100);
+                doc.rect(0, 0, 210, 30, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(18);
+                doc.text('Australian Government', 105, 12, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text('Department of Home Affairs', 105, 20, { align: 'center' });
+                
+                doc.setDrawColor(228, 0, 43);
+                doc.setLineWidth(2);
+                doc.line(10, 32, 200, 32);
+                
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(16);
+                doc.text('Visa Entitlement Verification', 105, 45, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text('Visa Details Document', 105, 52, { align: 'center' });
+                
+                let yPos = 65;
+                doc.setFontSize(12);
+                
+                doc.setFont(undefined, 'bold');
+                doc.text('Personal Information:', 15, yPos);
+                doc.setFont(undefined, 'normal');
+                yPos += 10;
+                
+                doc.text(`Full Name: ${currentVisaHolder.firstName} ${currentVisaHolder.lastName}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Date of Birth: ${formatDate(currentVisaHolder.dateOfBirth)}`, 20, yPos);
+                yPos += 7;
+                doc.text(`Nationality: ${currentVisaHolder.nationality}`, 20, yPos);
+                yPos += 10;
+                
+                // Generate PDF and open in modal
+                const pdfBlob = doc.output('blob');
+                const pdfUrl = URL.createObjectURL(pdfBlob);
+                
+                document.getElementById('pdfModalTitle').textContent = `Visa Details - ${currentVisaHolder.firstName} ${currentVisaHolder.lastName}`;
+                pdfViewer.src = pdfUrl;
+                pdfModal.style.display = 'block';
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF. Please try again.');
+            }
+        }
+
+        function generateVisaGrantLetterPDF() {
+            if (!currentVisaHolder) return;
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                
+                if (!jsPDF) {
+                    alert('PDF library not available. Please check your internet connection.');
+                    return;
+                }
+                
+                const doc = new jsPDF();
+                
+                // Official letterhead
+                doc.setFillColor(0, 38, 100);
+                doc.rect(0, 0, 210, 40, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(20);
+                doc.text('AUSTRALIAN GOVERNMENT', 105, 15, { align: 'center' });
+                doc.setFontSize(16);
+                doc.text('VISA GRANT NOTICE', 105, 25, { align: 'center' });
+                doc.setFontSize(12);
+                doc.text('Department of Home Affairs', 105, 35, { align: 'center' });
+                
+                // Content
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(12);
+                
+                let yPos = 60;
+                doc.text('OFFICE OF THE MINISTER FOR IMMIGRATION, CITIZENSHIP AND MULTICULTURAL AFFAIRS', 105, yPos, { align: 'center' });
+                yPos += 20;
+                
+                doc.text('VISA GRANT NOTIFICATION', 105, yPos, { align: 'center' });
+                yPos += 15;
+                
+                doc.text(`To: ${currentVisaHolder.firstName} ${currentVisaHolder.lastName}`, 20, yPos);
+                yPos += 10;
+                doc.text('NOTICE IS HEREBY GIVEN that you have been granted a visa to enter and remain in Australia.', 20, yPos);
+                yPos += 15;
+                
+                // Visa details table
+                const visaDetails = [
+                    ['Visa Type:', currentVisaHolder.visaType],
+                    ['Visa Grant Number:', currentVisaHolder.visaGrantNumber],
+                    ['Visa Grant Date:', formatDate(currentVisaHolder.visaGrantDate)],
+                    ['Visa Expiry Date:', formatDate(currentVisaHolder.visaExpiryDate)],
+                    ['Passport Number:', currentVisaHolder.passportNumber],
+                    ['Nationality:', currentVisaHolder.nationality],
+                    ['Entries Allowed:', currentVisaHolder.entriesAllowed],
+                    ['Visa Status:', currentVisaHolder.status]
+                ];
+                
+                visaDetails.forEach(([label, value]) => {
+                    doc.setFont(undefined, 'bold');
+                    doc.text(label, 20, yPos);
+                    doc.setFont(undefined, 'normal');
+                    doc.text(value, 80, yPos);
+                    yPos += 8;
+                });
+                
+                yPos += 10;
+                doc.text('This document serves as official notification of your visa grant. Please present this', 20, yPos);
+                yPos += 8;
+                doc.text('letter along with your passport when traveling to Australia.', 20, yPos);
+                
+                // Signature
+                yPos += 30;
+                doc.text('_________________________', 150, yPos);
+                yPos += 8;
+                doc.text('Authorised Signatory', 150, yPos);
+                yPos += 8;
+                doc.text('Department of Home Affairs', 150, yPos);
+                
+                // Footer
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text('Document ID: VGN-' + currentVisaHolder.visaGrantNumber, 20, 280);
+                doc.text('Generated: ' + new Date().toLocaleDateString('en-AU'), 105, 280, { align: 'center' });
+                doc.text('Official Use Only', 195, 280, { align: 'right' });
+                
+                // Save PDF
+                doc.save(`Visa_Grant_Letter_${currentVisaHolder.passportNumber}.pdf`);
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF. Please try again.');
+            }
+        }
+
+        function generateVEVOCheckPDF() {
+            if (!currentVisaHolder) return;
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                
+                if (!jsPDF) {
+                    alert('PDF library not available. Please check your internet connection.');
+                    return;
+                }
+                
+                const doc = new jsPDF();
+                
+                // VEVO Check Header
+                doc.setFillColor(0, 38, 100);
+                doc.rect(0, 0, 210, 35, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(18);
+                doc.text('VEVO - Visa Entitlement Verification Online', 105, 15, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text('Official Visa Status Check', 105, 25, { align: 'center' });
+                
+                // QR Code area (placeholder)
+                doc.setDrawColor(200, 200, 200);
+                doc.setLineWidth(1);
+                doc.rect(150, 45, 50, 50);
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text('VEVO QR Code', 175, 75, { align: 'center' });
+                doc.text('Scan to verify', 175, 82, { align: 'center' });
+                
+                // Check details
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(12);
+                let yPos = 50;
+                
+                doc.setFont(undefined, 'bold');
+                doc.text('VEVO CHECK RESULT - VALID', 20, yPos);
+                yPos += 10;
+                
+                doc.setFont(undefined, 'normal');
+                doc.text(`Name: ${currentVisaHolder.firstName} ${currentVisaHolder.lastName}`, 20, yPos);
+                yPos += 8;
+                doc.text(`Passport: ${currentVisaHolder.passportNumber} (${currentVisaHolder.passportCountry})`, 20, yPos);
+                yPos += 8;
+                doc.text(`Date of Birth: ${formatDate(currentVisaHolder.dateOfBirth)}`, 20, yPos);
+                yPos += 15;
+                
+                // Status box
+                doc.setFillColor(220, 255, 220);
+                doc.rect(20, yPos, 120, 15, 'F');
+                doc.setTextColor(0, 100, 0);
+                doc.setFont(undefined, 'bold');
+                doc.text('✓ VISA STATUS: ACTIVE', 25, yPos + 10);
+                yPos += 25;
+                
+                doc.setTextColor(0, 0, 0);
+                doc.setFont(undefined, 'normal');
+                doc.text(`Visa Type: ${currentVisaHolder.visaType}`, 20, yPos);
+                yPos += 8;
+                doc.text(`Visa Grant Number: ${currentVisaHolder.visaGrantNumber}`, 20, yPos);
+                yPos += 8;
+                doc.text(`Valid From: ${formatDate(currentVisaHolder.visaGrantDate)}`, 20, yPos);
+                yPos += 8;
+                doc.text(`Valid Until: ${formatDate(currentVisaHolder.visaExpiryDate)}`, 20, yPos);
+                yPos += 8;
+                doc.text(`Entries: ${currentVisaHolder.entriesAllowed}`, 20, yPos);
+                yPos += 15;
+                
+                // Check information
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text('This VEVO check was performed on: ' + new Date().toLocaleString('en-AU'), 20, yPos);
+                yPos += 6;
+                doc.text('Check Reference: VEVO-' + Date.now(), 20, yPos);
+                yPos += 6;
+                doc.text('For official verification, visit: https://immi.homeaffairs.gov.au/visas/already-have-a-visa/check-visa-details', 20, yPos, { maxWidth: 180 });
+                
+                doc.save(`VEVO_Check_${currentVisaHolder.passportNumber}.pdf`);
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF. Please try again.');
+            }
+        }
+
+        function viewSamplePDF(filename, holderName) {
+            try {
+                const { jsPDF } = window.jspdf;
+                
+                if (!jsPDF) {
+                    alert('PDF library not available. Please check your internet connection.');
+                    return;
+                }
+                
+                const doc = new jsPDF();
+                
+                doc.setFillColor(0, 38, 100);
+                doc.rect(0, 0, 210, 30, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(16);
+                doc.text(filename, 105, 15, { align: 'center' });
+                doc.setFontSize(12);
+                doc.text(`For: ${holderName}`, 105, 23, { align: 'center' });
+                
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(14);
+                doc.text('Document Details', 20, 50);
+                
+                doc.setFontSize(12);
+                doc.text(`Document: ${filename}`, 20, 70);
+                doc.text(`Holder: ${holderName}`, 20, 80);
+                doc.text(`Generated: ${new Date().toLocaleDateString('en-AU')}`, 20, 90);
+                doc.text(`Department: Home Affairs`, 20, 100);
+                doc.text(`Purpose: Visa Verification`, 20, 110);
+                doc.text(`This is a sample document for demonstration purposes.`, 20, 130);
+                doc.text(`In a production environment, this would be the actual document.`, 20, 140);
+                
+                const pdfBlob = doc.output('blob');
+                const pdfUrl = URL.createObjectURL(pdfBlob);
+                
+                document.getElementById('pdfModalTitle').textContent = filename;
+                pdfViewer.src = pdfUrl;
+                pdfModal.style.display = 'block';
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF. Please try again.');
+            }
+        }
+
+        function downloadDocument(filename, firstName, lastName) {
+            try {
+                const { jsPDF } = window.jspdf;
+                
+                if (!jsPDF) {
+                    alert('PDF library not available. Please check your internet connection.');
+                    return;
+                }
+                
+                const doc = new jsPDF();
+                
+                doc.setFillColor(0, 38, 100);
+                doc.rect(0, 0, 210, 30, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(16);
+                doc.text(filename, 105, 15, { align: 'center' });
+                doc.setFontSize(12);
+                doc.text(`${firstName} ${lastName}`, 105, 23, { align: 'center' });
+                
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(12);
+                doc.text(`This document is associated with ${firstName} ${lastName}`, 20, 50);
+                doc.text(`Document Type: ${filename}`, 20, 65);
+                doc.text(`Status: Active`, 20, 75);
+                doc.text(`Date: ${new Date().toLocaleDateString('en-AU')}`, 20, 85);
+                doc.text(`Department of Home Affairs`, 20, 100);
+                doc.text(`Official Document`, 20, 110);
+                
+                doc.save(filename);
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF. Please try again.');
+            }
+        }
+
+        function viewUploadedPDF(visaId, docId) {
+            const documents = visaDB.getDocuments(visaId);
+            const doc = documents.find(d => d.id === docId);
+            
+            if (doc && doc.data) {
+                // For base64 PDF data
+                const pdfUrl = 'data:application/pdf;base64,' + doc.data;
+                document.getElementById('pdfModalTitle').textContent = doc.name;
+                pdfViewer.src = pdfUrl;
+                pdfModal.style.display = 'block';
+            } else {
+                const holder = visaDB.findVisaHolderById(visaId);
+                if (holder) {
+                    viewSamplePDF(doc.name, `${holder.firstName} ${holder.lastName}`);
+                }
+            }
+        }
+
+        function deleteDocument(visaId, docId) {
+            if (confirm('Are you sure you want to delete this document?')) {
+                visaDB.deleteDocument(visaId, docId);
+                loadDocuments(visaId);
+                showAdminAlert('Document deleted successfully!', 'success');
+            }
+        }
+
+        // Handle file upload
+        function handleFileUpload(input) {
+            const files = input.files;
+            const selectedFilesDiv = document.getElementById('selectedFiles');
+            selectedFilesDiv.innerHTML = '';
+            
+            uploadedDocuments = [];
+            
+            Array.from(files).forEach((file, index) => {
+                if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                    alert(`File "${file.name}" exceeds 10MB limit and will not be uploaded.`);
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const document = {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        data: e.target.result.split(',')[1] // Remove data URL prefix
+                    };
+                    
+                    uploadedDocuments.push(document);
+                    
+                    selectedFilesDiv.innerHTML += `
+                        <div style="margin-top: 10px; padding: 10px; background: #e9ecef; border-radius: 3px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <i class="fas fa-file"></i> ${file.name} (${(file.size / 1024).toFixed(2)} KB)
+                            </div>
+                            <button onclick="removeUploadedFile(${index})" style="background: none; border: none; color: #dc3545; cursor: pointer;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                };
+                
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeUploadedFile(index) {
+            uploadedDocuments.splice(index, 1);
+            handleFileUpload(document.getElementById('documentFiles'));
+        }
+
+        // Clear form
+        clearBtn.addEventListener('click', () => {
+            vevoForm.reset();
+            errorAlert.style.display = 'none';
+            successAlert.style.display = 'none';
+        });
+
+        // Handle VEVO form submission
+        vevoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(vevoForm);
+            const passportNumber = document.getElementById('documentNumber').value;
+            const dateOfBirth = document.getElementById('dateOfBirth').value;
+            
+            // Show loading spinner
+            formSpinner.style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            
+            // Simulate API delay
+            setTimeout(() => {
+                // Find visa holder
+                const holder = visaDB.findVisaHolder(passportNumber, dateOfBirth);
+                
+                formSpinner.style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+                
+                if (holder) {
+                    showVisaDetails(holder);
+                } else {
+                    errorAlert.style.display = 'block';
+                    successAlert.style.display = 'none';
+                    // Scroll to error
+                    errorAlert.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 1000);
+        });
+
+        // Go back to form
+        function goBackToForm() {
+            resultSection.style.display = 'none';
+            formSection.style.display = 'block';
+            adminDashboard.style.display = 'none';
+            errorAlert.style.display = 'none';
+            successAlert.style.display = 'none';
+            vevoForm.reset();
+        }
+
+        // Print visa details
+        function printVisaDetails() {
+            const printWindow = window.open('', '_blank');
+            const holder = currentVisaHolder;
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Visa Details - ${holder.firstName} ${holder.lastName}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .details { margin-bottom: 20px; }
+                        .detail-row { margin-bottom: 10px; }
+                        .label { font-weight: bold; }
+                        .footer { margin-top: 50px; text-align: center; font-size: 12px; color: #666; }
+                        @media print {
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Australian Government</h1>
+                        <h2>Department of Home Affairs</h2>
+                        <h3>Visa Entitlement Details</h3>
+                    </div>
+                    <div class="details">
+                        <h4>${holder.firstName} ${holder.lastName}</h4>
+                        <div class="detail-row"><span class="label">Date of Birth:</span> ${formatDate(holder.dateOfBirth)}</div>
+                        <div class="detail-row"><span class="label">Nationality:</span> ${holder.nationality}</div>
+                        <div class="detail-row"><span class="label">Passport Number:</span> ${holder.passportNumber}</div>
+                        <div class="detail-row"><span class="label">Passport Country:</span> ${holder.passportCountry}</div>
+                        <div class="detail-row"><span class="label">Passport Expiry:</span> ${formatDate(holder.passportExpiry)}</div>
+                        <div class="detail-row"><span class="label">Visa Type:</span> ${holder.visaType}</div>
+                        <div class="detail-row"><span class="label">Visa Grant Number:</span> ${holder.visaGrantNumber}</div>
+                        <div class="detail-row"><span class="label">Visa Grant Date:</span> ${formatDate(holder.visaGrantDate)}</div>
+                        <div class="detail-row"><span class="label">Visa Expiry Date:</span> ${formatDate(holder.visaExpiryDate)}</div>
+                        <div class="detail-row"><span class="label">Entries Allowed:</span> ${holder.entriesAllowed}</div>
+                        <div class="detail-row"><span class="label">Status:</span> ${holder.status}</div>
+                    </div>
+                    <div class="footer">
+                        <p>Generated on: ${new Date().toLocaleDateString('en-AU')}</p>
+                        <p>VEVO Reference: ${holder.visaGrantNumber}</p>
+                        <p>Official Document - Department of Home Affairs</p>
+                    </div>
+                    <button class="no-print" onclick="window.print()" style="margin-top: 20px; padding: 10px 20px; background: #002664; color: white; border: none; border-radius: 4px; cursor: pointer;">Print</button>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        // Admin functionality
+        adminBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            adminModal.style.display = 'block';
+        });
+
+        closeModal.addEventListener('click', () => {
+            adminModal.style.display = 'none';
+            document.getElementById('loginError').style.display = 'none';
+        });
+
+        closePdfModal.addEventListener('click', () => {
+            pdfModal.style.display = 'none';
+            pdfViewer.src = '';
+        });
+
+        // Admin login
+        adminLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+            
+            if (userId === 'Agent2026' && password === 'Agent@2627') {
+                isAdminLoggedIn = true;
+                adminModal.style.display = 'none';
+                document.getElementById('loginError').style.display = 'none';
+                showAdminDashboard();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        });
+
+        // Show admin dashboard
+        function showAdminDashboard() {
+            formSection.style.display = 'none';
+            resultSection.style.display = 'none';
+            adminDashboard.style.display = 'block';
+            loadVisaList();
+            loadStatistics();
+        }
+
+        // Load visa list for admin
+        function loadVisaList(searchTerm = '') {
+            const holders = visaDB.getAllVisaHolders();
+            let filtered = holders;
+            
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filtered = holders.filter(holder => 
+                    holder.firstName.toLowerCase().includes(term) ||
+                    holder.lastName.toLowerCase().includes(term) ||
+                    holder.passportNumber.toLowerCase().includes(term) ||
+                    holder.visaGrantNumber.toLowerCase().includes(term) ||
+                    holder.nationality.toLowerCase().includes(term)
+                );
+            }
+            
+            if (filtered.length === 0) {
+                visaList.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-users-slash"></i>
+                        <p>No visa holders found</p>
+                        ${searchTerm ? '<p>Try a different search term</p>' : ''}
+                    </div>
+                `;
+                return;
+            }
+            
+            visaList.innerHTML = filtered.map(holder => `
+                <div class="visa-item" data-id="${holder.id}">
+                    <div class="visa-info">
+                        <h4>${holder.firstName} ${holder.lastName}</h4>
+                        <p>Passport: ${holder.passportNumber} | Visa: ${holder.visaGrantNumber}</p>
+                        <p>Nationality: ${holder.nationality} | Status: <span class="${holder.status === 'Active' ? 'status-active' : ''}">${holder.status}</span></p>
+                        <p style="font-size: 12px; color: #666;">Created: ${new Date(holder.createdDate).toLocaleDateString()}</p>
+                    </div>
+                    <div class="visa-actions">
+                        <button class="btn-view" onclick="adminViewVisaHolder(${holder.id})">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn-edit" onclick="adminEditVisaHolder(${holder.id})">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn-pdf-small" onclick="adminGeneratePDF(${holder.id})">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </button>
+                        <button class="btn-delete" onclick="adminDeleteVisaHolder(${holder.id})">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function searchVisaHolders() {
+            const searchTerm = document.getElementById('searchInput').value;
+            loadVisaList(searchTerm);
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            loadVisaList();
+        }
+
+        // Admin functions
+        function adminViewVisaHolder(id) {
+            const holder = visaDB.findVisaHolderById(id);
+            if (holder) {
+                currentVisaHolder = holder;
+                showVisaDetails(holder);
+            }
+        }
+
+        function adminEditVisaHolder(id) {
+            const holder = visaDB.findVisaHolderById(id);
+            if (holder) {
+                // Populate form with holder data
+                document.getElementById('addFirstName').value = holder.firstName;
+                document.getElementById('addLastName').value = holder.lastName;
+                document.getElementById('addDateOfBirth').value = formatDateForInput(holder.dateOfBirth);
+                document.getElementById('addNationality').value = holder.nationality;
+                document.getElementById('addPassportNumber').value = holder.passportNumber;
+                document.getElementById('addPassportCountry').value = holder.passportCountry;
+                document.getElementById('addPassportExpiry').value = formatDateForInput(holder.passportExpiry);
+                document.getElementById('addVisaType').value = holder.visaType;
+                document.getElementById('addVisaGrantNumber').value = holder.visaGrantNumber;
+                document.getElementById('addVisaGrantDate').value = formatDateForInput(holder.visaGrantDate);
+                document.getElementById('addVisaExpiryDate').value = formatDateForInput(holder.visaExpiryDate);
+                document.getElementById('addEntriesAllowed').value = holder.entriesAllowed;
+                document.getElementById('addStatus').value = holder.status;
+                
+                // Store the id for update
+                document.getElementById('addVisaForm').dataset.editingId = id;
+                
+                // Switch to add visa tab
+                document.querySelector('[data-tab="addVisa"]').click();
+                
+                showAdminAlert('Editing visa holder. Update the details and click Save.', 'success');
+            }
+        }
+
+        function adminGeneratePDF(id) {
+            const holder = visaDB.findVisaHolderById(id);
+            if (holder) {
+                currentVisaHolder = holder;
+                generateVisaDetailsPDF();
+            }
+        }
+
+        function adminDeleteVisaHolder(id) {
+            if (confirm('Are you sure you want to delete this visa holder? This action cannot be undone.')) {
+                const success = visaDB.deleteVisaHolder(id);
+                if (success) {
+                    loadVisaList();
+                    showAdminAlert('Visa holder deleted successfully!', 'success');
+                }
+            }
+        }
+
+        function showAdminAlert(message, type = 'success') {
+            adminSuccessAlert.textContent = message;
+            adminSuccessAlert.className = `alert alert-${type}`;
+            adminSuccessAlert.style.display = 'block';
+            
+            setTimeout(() => {
+                adminSuccessAlert.style.display = 'none';
+            }, 5000);
+        }
+
+        // Tab switching
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // Update active tab button
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Show active tab content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${tabId}Tab`) {
+                        content.classList.add('active');
+                    }
+                });
+                
+                // Load statistics if statistics tab is selected
+                if (tabId === 'statistics') {
+                    loadStatistics();
+                }
+            });
+        });
+
+        // Load statistics
+        function loadStatistics() {
+            const stats = visaDB.getStatistics();
+            
+            let statsHTML = `
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Total Visa Holders</div>
+                        <div class="detail-value" style="font-size: 24px; font-weight: bold; color: #002664;">${stats.total}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Active Visas</div>
+                        <div class="detail-value" style="font-size: 24px; font-weight: bold; color: #28a745;">${stats.active}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Inactive Visas</div>
+                        <div class="detail-value" style="font-size: 24px; font-weight: bold; color: #ffc107;">${stats.inactive}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Cancelled Visas</div>
+                        <div class="detail-value" style="font-size: 24px; font-weight: bold; color: #dc3545;">${stats.cancelled}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Add nationality breakdown
+            if (Object.keys(stats.byNationality).length > 0) {
+                statsHTML += `<h4 style="margin-top: 30px;">Nationality Breakdown</h4>`;
+                statsHTML += `<div class="details-grid">`;
+                for (const [nationality, count] of Object.entries(stats.byNationality)) {
+                    statsHTML += `
+                        <div class="detail-item">
+                            <div class="detail-label">${nationality}</div>
+                            <div class="detail-value">${count}</div>
+                        </div>
+                    `;
+                }
+                statsHTML += `</div>`;
+            }
+            
+            // Add visa type breakdown
+            if (Object.keys(stats.byVisaType).length > 0) {
+                statsHTML += `<h4 style="margin-top: 30px;">Visa Type Breakdown</h4>`;
+                statsHTML += `<div class="details-grid">`;
+                for (const [visaType, count] of Object.entries(stats.byVisaType)) {
+                    statsHTML += `
+                        <div class="detail-item">
+                            <div class="detail-label">${visaType}</div>
+                            <div class="detail-value">${count}</div>
+                        </div>
+                    `;
+                }
+                statsHTML += `</div>`;
+            }
+            
+            statisticsContent.innerHTML = statsHTML;
+        }
+
+        // Add new visa holder
+        addVisaForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const editingId = addVisaForm.dataset.editingId;
+            
+            const visaData = {
+                firstName: document.getElementById('addFirstName').value,
+                lastName: document.getElementById('addLastName').value,
+                dateOfBirth: document.getElementById('addDateOfBirth').value,
+                nationality: document.getElementById('addNationality').value,
+                passportNumber: document.getElementById('addPassportNumber').value,
+                passportCountry: document.getElementById('addPassportCountry').value,
+                passportExpiry: document.getElementById('addPassportExpiry').value,
+                visaType: document.getElementById('addVisaType').value,
+                visaGrantNumber: document.getElementById('addVisaGrantNumber').value,
+                visaGrantDate: document.getElementById('addVisaGrantDate').value,
+                visaExpiryDate: document.getElementById('addVisaExpiryDate').value,
+                entriesAllowed: document.getElementById('addEntriesAllowed').value,
+                status: document.getElementById('addStatus').value
+            };
+            
+            if (editingId) {
+                // Update existing visa holder
+                visaDB.updateVisaHolder(parseInt(editingId), visaData);
+                showAdminAlert('Visa holder updated successfully!', 'success');
+                delete addVisaForm.dataset.editingId;
+            } else {
+                // Add new visa holder
+                const newHolder = visaDB.addVisaHolder(visaData);
+                
+                // Add uploaded documents
+                if (uploadedDocuments.length > 0) {
+                    uploadedDocuments.forEach(doc => {
+                        visaDB.addDocument(newHolder.id, doc);
+                    });
+                    uploadedDocuments = [];
+                }
+                
+                showAdminAlert('Visa holder added successfully!', 'success');
+            }
+            
+            // Reset form
+            addVisaForm.reset();
+            document.getElementById('selectedFiles').innerHTML = '';
+            
+            // Switch to manage tab
+            document.querySelector('[data-tab="manageVisas"]').click();
+            loadVisaList();
+        });
+
+        // Cancel add visa
+        cancelAdd.addEventListener('click', () => {
+            addVisaForm.reset();
+            document.getElementById('selectedFiles').innerHTML = '';
+            uploadedDocuments = [];
+            delete addVisaForm.dataset.editingId;
+            document.querySelector('[data-tab="manageVisas"]').click();
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            isAdminLoggedIn = false;
+            adminDashboard.style.display = 'none';
+            formSection.style.display = 'block';
+            resultSection.style.display = 'none';
+            adminSuccessAlert.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === adminModal) {
+                adminModal.style.display = 'none';
+                document.getElementById('loginError').style.display = 'none';
+            }
+            if (e.target === pdfModal) {
+                pdfModal.style.display = 'none';
+                pdfViewer.src = '';
+            }
+        });
+
+        // Initialize
+        initializeDates();
+        loadVisaList();
+        
+        // Check if jsPDF is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof window.jspdf !== 'undefined') {
+                console.log('PDF library loaded successfully');
+            } else {
+                console.warn('PDF library not loaded. PDF features will not work.');
+            }
+        });
+    </script>
+</body>
+</html>
